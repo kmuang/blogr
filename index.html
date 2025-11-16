@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="shortcut icon" href="img/logo.jpeg" type="image/x-icon">
+<title>Blogr</title>
+<style>
+  :root{
+    --soft-red: hsl(356, 100%, 66%);
+    --light-red: hsl(355, 100%, 74%);
+    --very-dark-blue: hsl(208, 49%, 24%);
+    --very-dark-gray-blue: hsl(207, 13%, 34%);
+    --very-dark-black-blue: hsl(240, 10%, 16%);
+    --white: hsl(0, 0%, 100%);
+    --grayish-blue: hsl(240, 2%, 79%);
+    --very-light-red: hsl(13, 100%, 72%);
+    --light-gray: hsl(240, 5%, 91%);
+    --bg-gradient-start: hsl(13, 100%, 72%);
+    --bg-gradient-end: hsl(353, 100%, 62%);
+    --max-w: 1110px;
+  }
+
+  /* Reset & base */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: 'Overpass', ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, sans-serif;
+    color:var(--very-dark-blue);
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.6;
+  }
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%;height:auto}
+
+  /* Container */
+  .container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
+
+  /* Header / Nav */
+  header{
+    padding:56px 0 280px;
+    background:linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    border-radius:0 0 0 100px;
+    position:relative;
+    overflow:visible;
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .brand{font-weight:700;letter-spacing:0px;font-size:36px;color:var(--white);display:flex;align-items:center;gap:12px}
+  .brand-logo{width:40px;height:40px;border-radius:8px;object-fit:cover}
+  nav.desktop{display:flex;gap:32px;align-items:center;margin-left:48px}
+  nav.desktop a{font-size:15px;color:var(--white);padding:8px 16px;font-weight:600;opacity:0.9;transition:all 0.3s;border-radius:4px}
+  nav.desktop a:hover{background:var(--white);color:var(--soft-red);opacity:1}
+  .auth{display:flex;gap:10px;align-items:center}
+  .btn-sign{padding:8px 24px;border-radius:999px;background:transparent;border:1px solid transparent;color:var(--white);font-weight:700;opacity:0.9;cursor:pointer;transition:all 0.3s}
+  .btn-sign:hover{background:var(--white);color:var(--soft-red);opacity:1}
+  .btn-cta{padding:12px 32px;border-radius:999px;background:var(--white);color:var(--soft-red);font-weight:700;border:none;cursor:pointer;transition:all 0.3s}
+  .btn-cta:hover{background:hsl(355, 100%, 85%);color:var(--white)}
+  .icon-btn{display:none;background:transparent;border:0;padding:6px;cursor:pointer}
+
+  /* Mobile menu */
+  .mobile-menu{display:none;background:var(--white);border-radius:10px;padding:18px;box-shadow:0 10px 30px rgba(31,42,68,0.08);position:absolute;top:80px;right:24px;width:260px}
+  .mobile-menu a{display:block;padding:8px 0;color:var(--very-dark-gray-blue);font-weight:600}
+
+  /* Hero */
+  .hero{padding:96px 0 0;position:relative;overflow:visible;margin-top:64px}
+  .hero .hero-grid{display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px}
+  .hero-left h1{font-size:64px;line-height:1.15;color:var(--white);margin-bottom:16px;font-weight:600}
+  .hero-left p{color:var(--white);font-size:20px;margin-bottom:28px;opacity:0.95}
+  .hero-left .hero-actions{display:flex;gap:16px;justify-content:center}
+  .btn-ghost{padding:12px 24px;border-radius:999px;background:transparent;border:1px solid var(--white);font-weight:700;color:var(--white);cursor:pointer;transition:all 0.3s}
+  .btn-ghost:hover{background:var(--white);color:var(--soft-red)}
+  .hero-right{position:relative}
+
+  /* Patterns & illustrations */
+  .pattern-intro{position:absolute;right:-120px;top:-60px;opacity:1;pointer-events:none}
+  .intro-illustration{max-width:520px;margin-left:auto;display:block}
+
+  /* Main wrapper */
+  main{background:var(--white);position:relative;margin-top:0}
+  
+  /* Sections */
+  section{padding:96px 0}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+  .section-title h2{font-size:40px;color:var(--very-dark-blue);margin-bottom:16px;font-weight:600}
+  .section-title p{color:var(--very-dark-gray-blue);font-size:18px;line-height:1.8}
+  .section-title.center{text-align:center;margin-bottom:48px}
+
+  /* Feature list */
+  .features{display:flex;gap:28px;flex-wrap:wrap;margin-top:40px}
+  .feature{flex:1 1 240px;background:var(--white);border-radius:8px;padding:32px 28px;box-shadow:0 15px 40px rgba(0,0,0,0.08);text-align:center}
+  .feature h3{margin-top:12px;margin-bottom:12px;font-size:20px;color:var(--very-dark-blue)}
+  .feature p{font-size:16px;color:var(--very-dark-gray-blue);line-height:1.7}
+
+  /* CTA strip */
+  .cta-strip{background:linear-gradient(135deg,var(--bg-gradient-start),var(--bg-gradient-end));color:var(--white);padding:64px;border-radius:0 100px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .cta-strip h3{font-size:32px;margin:0;font-weight:600}
+  .cta-strip p{opacity:0.95;margin:8px 0 0 0;font-size:18px}
+
+  /* Footer */
+  footer{padding:72px 0;background:var(--very-dark-black-blue);color:var(--white);border-radius:0 100px 0 0}
+  .footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:32px;align-items:start}
+  .footer-grid h4{font-size:15px;margin-bottom:18px;color:var(--white);font-weight:600}
+  .footer-grid a{display:block;margin-bottom:12px;color:var(--grayish-blue);font-size:15px;opacity:0.85}
+  .footer-grid a:hover{color:var(--white);opacity:1}
+
+  /* Responsive */
+  @media (max-width: 900px){
+    .hero-left h1{font-size:36px}
+    header{border-radius:0 0 0 80px;padding:40px 0 200px}
+    .hero{margin-top:48px;padding:64px 0 0}
+    .pattern-intro{right:-60px;top:-120px;transform:scale(0.85)}
+    nav.desktop{display:none}
+    .icon-btn{display:inline-block}
+    .mobile-menu{right:18px}
+    .two-col{grid-template-columns:1fr}
+    .footer-grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:480px){
+    .container{padding:0 20px}
+    .brand{font-size:28px}
+    header{border-radius:0 0 0 60px;padding:32px 0 180px}
+    .hero{padding:48px 0 0;margin-top:40px}
+    .hero-left h1{font-size:36px}
+    .section-title h2{font-size:28px}
+    .cta-strip{padding:48px 32px;border-radius:0 80px;flex-direction:column;text-align:center}
+    footer{border-radius:0 80px 0 0}
+    .pattern-intro{display:none}
+    .mobile-menu{width:calc(100% - 40px);left:20px;right:20px;top:90px}
+  }
+
+  /* Pattern background for hero */
+  .hero::before{
+    content:'';
+    position:absolute;
+    top:-280px;
+    left:50%;
+    transform:translateX(-50%);
+    width:1400px;
+    height:1400px;
+    background:url('https://johnmwendwa.github.io/blogr-landing-page/images/bg-pattern-intro.svg') no-repeat center;
+    background-size:contain;
+    opacity:0.4;
+    pointer-events:none;
+    z-index:0;
+  }
+  .hero .hero-grid{position:relative;z-index:1}
+
+  /* Small utilities */
+  .muted{color:var(--very-dark-gray-blue)}
+  .align-center{text-align:center}
+  .feature a img:hover{transform:scale(1.1)}
+  
+  /* Infrastructure section pattern */
+  .infrastructure-section{position:relative;overflow:hidden}
+  .infrastructure-section::before{
+    content:'';
+    position:absolute;
+    top:-180px;
+    left:50%;
+    transform:translateX(-50%);
+    width:1000px;
+    height:1000px;
+    background:url('https://johnmwendwa.github.io/blogr-landing-page/images/bg-pattern-circles.svg') no-repeat center;
+    background-size:contain;
+    opacity:0.5;
+    pointer-events:none;
+    z-index:0;
+  }
+  .infrastructure-section .container{position:relative;z-index:1}
+  
+  /* Image modal */
+  .image-modal{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.9);align-items:center;justify-content:center}
+  .image-modal.active{display:flex}
+  .image-modal img{max-width:90%;max-height:90%;object-fit:contain;border-radius:8px}
+  .image-modal-close{position:absolute;top:30px;right:40px;color:white;font-size:40px;font-weight:bold;cursor:pointer;transition:0.3s}
+  .image-modal-close:hover{color:#bbb}
+  .carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);color:white;font-size:50px;font-weight:bold;cursor:pointer;user-select:none;padding:20px;transition:0.3s}
+  .carousel-arrow:hover{color:#bbb;transform:translateY(-50%) scale(1.2)}
+  .carousel-arrow.prev{left:30px}
+  .carousel-arrow.next{right:30px}
+</style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+    <div class="nav">
+      <div style="display:flex;align-items:center;gap:20px">
+        <div class="brand">
+          <img src="img/logo.jpeg" alt="Blogr logo" class="brand-logo">
+          blogr
+        </div>
+      </div>
+
+      <nav class="desktop" aria-label="Primary">
+        <a href="#">Product</a>
+        <a href="#">Company</a>
+        <a href="#">Connect</a>
+      </nav>
+
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="auth desktop">
+          <button class="btn-sign">Login</button>
+          <button class="btn-cta">Sign Up</button>
+        </div>
+
+        <!-- Mobile toggle -->
+        <button class="icon-btn" id="menuToggle" aria-label="Open menu">
+          <!-- hamburger -->
+          <img src="https://johnmwendwa.github.io/blogr-landing-page/images/icon-hamburger.svg" alt="menu" width="22" height="22">
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <nav>
+        <a href="#"><strong>Product</strong></a>
+        <a href="#">Overview</a>
+        <a href="#">Pricing</a>
+        <a href="#">Marketplace</a>
+        <a href="#">Features</a>
+        <a href="#">Integrations</a>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(31,42,68,0.06)">
+
+        <a href="#"><strong>Company</strong></a>
+        <a href="#">About</a>
+        <a href="#">Team</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(31,42,68,0.06)">
+
+        <a href="#"><strong>Connect</strong></a>
+        <a href="#">Contact</a>
+        <a href="#">Newsletter</a>
+        <a href="#">LinkedIn</a>
+
+        <div style="margin-top:16px;display:flex;gap:10px">
+          <button style="flex:1;padding:10px;border-radius:999px;background:transparent;border:1px solid rgba(31,42,68,0.06)">Login</button>
+          <button style="flex:1;padding:10px;border-radius:999px;background:var(--soft-red);color:var(--white);border:none">Sign Up</button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-left">
+          <h1>A modern publishing platform</h1>
+          <p>Grow your audience and build your online brand</p>
+          <div class="hero-actions">
+            <button class="btn-cta">Start for Free</button>
+            <button class="btn-ghost">Learn More</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Editor Section -->
+    <section>
+      <div class="container">
+        <div class="section-title center">
+          <h2>Designed for the future</h2>
+        </div>
+
+        <div class="two-col" style="margin-top:64px">
+          <div>
+            <h3 style="font-size:28px;color:var(--very-dark-blue);margin-bottom:16px">Introducing an extensible editor</h3>
+            <p style="color:var(--very-dark-gray-blue);line-height:1.8;margin-bottom:48px">
+              Blogr features an exceedingly intuitive interface which lets you focus on one thing: creating content.
+              The editor supports management of multiple blogs and allows easy manipulation of embeds such as images,
+              videos, and Markdown. Extensibility with plugins and themes provide easy ways to add functionality or change the looks of a blog.
+            </p>
+
+            <h3 style="font-size:28px;color:var(--very-dark-blue);margin-bottom:16px">Robust content management</h3>
+            <p style="color:var(--very-dark-gray-blue);line-height:1.8">
+              Flexible content management enables users to easily move through posts. Increase the usability of your blog by adding customized categories, sections, format, or flow. With this functionality, you're in full control.
+            </p>
+          </div>
+
+          <div style="text-align:right">
+            <picture>
+              <source media="(max-width:900px)" srcset="https://johnmwendwa.github.io/blogr-landing-page/images/illustration-editor-mobile.svg">
+              <img src="https://johnmwendwa.github.io/blogr-landing-page/images/illustration-editor-desktop.svg" alt="Editor illustration" style="max-width:580px;margin-left:auto">
+            </picture>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Phones / Infrastructure -->
+    <section class="infrastructure-section" style="background:var(--very-dark-gray-blue);padding:64px 0;margin:96px 0;border-radius:0 100px 0 100px">
+      <div class="container two-col">
+        <div style="text-align:left">
+          <picture>
+            <source media="(max-width:900px)" srcset="https://johnmwendwa.github.io/blogr-landing-page/images/illustration-phones.svg">
+            <img src="https://johnmwendwa.github.io/blogr-landing-page/images/illustration-phones.svg" alt="Phones illustration" style="max-width:480px">
+          </picture>
+        </div>
+
+        <div>
+          <h2 style="font-size:40px;color:var(--white);margin-bottom:16px;font-weight:600">State of the Art Infrastructure</h2>
+          <p style="color:var(--white);line-height:1.8;opacity:0.9">
+            With reliability and speed in mind, worldwide data centers provide the backbone for ultra-fast connectivity.
+            This ensures your site will load instantly, no matter where your readers are, keeping your site competitive.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section>
+      <div class="container">
+        <div class="section-title center">
+          <h2>Free, Open, Simple</h2>
+          <p style="max-width:680px;margin:0 auto">Blogr is a free and open source application backed by a large community of helpful developers. It supports features such as code syntax highlighting, RSS feeds, social media integration, third-party commenting tools, and works seamlessly with Google Analytics.</p>
+        </div>
+
+        <div class="features"> 
+          <div class="feature">
+            <img src="https://images.unsplash.com/photo-1583346303649-1bfd2f10c2e3?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Editor icon" style="width:80px;height:80px;margin:0 auto;border-radius:8px;object-fit:cover;cursor:pointer;transition:transform 0.3s" onclick="openImageModal(this.src)">
+            <h3>Intuitive editor</h3>
+            <p>Craft posts with a powerful editor built for flexibility.</p>
+          </div>
+
+          <div class="feature">
+            <img src="https://www.ulc.org/assets/ulc/blog/offering-support.jpg?t=1667427827000000" alt="Markdown icon" style="width:80px;height:80px;margin:0 auto;border-radius:8px;object-fit:cover;cursor:pointer;transition:transform 0.3s" onclick="openImageModal('https://www.ulc.org/assets/ulc/blog/offering-support.jpg?t=1667427827000000')">
+            <h3>Markdown support</h3>
+            <p>Write in Markdown and integrate seamlessly with code embeds.</p>
+          </div>
+
+          <div class="feature">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGRmqxZwkgOeWWNb3TDGiKcboVZpbUhC2F5A&s" alt="RSS icon" style="width:80px;height:80px;margin:0 auto;border-radius:8px;object-fit:cover;cursor:pointer;transition:transform 0.3s" onclick="openImageModal('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGRmqxZwkgOeWWNb3TDGiKcboVZpbUhC2F5A&s')">
+            <h3>RSS feeds</h3>
+            <p>Let your readers subscribe and stay updated with RSS.</p>
+          </div>
+
+          <div class="feature">
+            <img src="https://media.sproutsocial.com/uploads/2023/11/Social-media-comments-final-2.png" alt="Social icon" style="width:80px;height:80px;margin:0 auto;border-radius:8px;object-fit:cover;cursor:pointer;transition:transform 0.3s" onclick="openImageModal('https://media.sproutsocial.com/uploads/2023/11/Social-media-comments-final-2.png')">
+            <h3>Social comments</h3>
+            <p>Enable comments with third-party tools for rich engagement.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Laptop / Tools -->
+    <section>
+      <div class="container two-col">
+        <div>
+          <h2 style="font-size:40px;color:var(--very-dark-blue);margin-bottom:16px;font-weight:600">Powerful tooling</h2>
+          <p style="color:var(--very-dark-gray-blue);line-height:1.8;margin-top:24px">
+            Batteries included. We built a simple and straightforward CLI tool that makes customization and deployment a breeze, but capable of producing even the most complicated sites.
+          </p>
+        </div>
+
+        <div style="text-align:right">
+          <picture>
+            <source media="(max-width:900px)" srcset="https://johnmwendwa.github.io/blogr-landing-page/images/illustration-laptop-mobile.svg">
+            <img src="https://johnmwendwa.github.io/blogr-landing-page/images/illustration-laptop-desktop.svg" alt="Laptop illustration" style="max-width:580px;margin-left:auto">
+          </picture>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA strip -->
+    <section>
+      <div class="container">
+        <div class="cta-strip">
+          <div>
+            <h3>Start for free</h3>
+            <p>Get started with Blogr today and publish your first post in minutes.</p>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center">
+            <button class="btn-ghost" style="background:transparent;border:1px solid rgba(255,255,255,0.18);color:var(--white)">Learn More</button>
+            <button class="btn-cta" style="background:var(--white);color:var(--soft-red)">Get Started</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="font-size:36px;margin-bottom:24px">blogr</div>
+        </div>
+
+        <div>
+          <h4>Product</h4>
+          <a href="#">Overview</a>
+          <a href="#">Pricing</a>
+          <a href="#">Marketplace</a>
+          <a href="#">Features</a>
+          <a href="#">Integrations</a>
+        </div>
+
+        <div>
+          <h4>Company</h4>
+          <a href="#">About</a>
+          <a href="#">Team</a>
+          <a href="#">Blog</a>
+          <a href="#">Careers</a>
+        </div>
+
+        <div>
+          <h4>Connect</h4>
+          <a href="#">Contact</a>
+          <a href="#">Newsletter</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Image Modal -->
+  <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <span class="image-modal-close">&times;</span>
+    <span class="carousel-arrow prev" onclick="event.stopPropagation(); changeImage(-1)">&#10094;</span>
+    <img id="modalImage" src="" alt="Expanded view" onclick="event.stopPropagation()">
+    <span class="carousel-arrow next" onclick="event.stopPropagation(); changeImage(1)">&#10095;</span>
+  </div>
+
+<script>
+  // Carousel images array
+  const carouselImages = [
+    // Intuitive editor images (3 images)
+    'https://images.unsplash.com/photo-1583346303649-1bfd2f10c2e3?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    // Markdown support images (3 images)
+    'https://www.ulc.org/assets/ulc/blog/offering-support.jpg?t=1667427827000000',
+    'https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1484&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    // RSS feeds images (3 images)
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGRmqxZwkgOeWWNb3TDGiKcboVZpbUhC2F5A&s',
+    'https://images.unsplash.com/photo-1585776245865-b92df54c6b25?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    // Social comments images (3 images)
+    'https://media.sproutsocial.com/uploads/2023/11/Social-media-comments-final-2.png',
+    'https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  ];
+  let currentImageIndex = 0;
+  
+  // Image modal functions
+  function openImageModal(src) {
+    currentImageIndex = carouselImages.indexOf(src);
+    if (currentImageIndex === -1) currentImageIndex = 0;
+    document.getElementById('imageModal').classList.add('active');
+    document.getElementById('modalImage').src = carouselImages[currentImageIndex];
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeImageModal() {
+    document.getElementById('imageModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+  
+  function changeImage(direction) {
+    currentImageIndex += direction;
+    if (currentImageIndex >= carouselImages.length) currentImageIndex = 0;
+    if (currentImageIndex < 0) currentImageIndex = carouselImages.length - 1;
+    document.getElementById('modalImage').src = carouselImages[currentImageIndex];
+  }
+  
+  // Close on ESC key, navigate with arrow keys
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeImageModal();
+    if (e.key === 'ArrowLeft') changeImage(-1);
+    if (e.key === 'ArrowRight') changeImage(1);
+  });
+
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let open = false;
+  menuToggle?.addEventListener('click', () => {
+    open = !open;
+    mobileMenu.style.display = open ? 'block' : 'none';
+    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuToggle.innerHTML = open
+      ? '<img src="https://johnmwendwa.github.io/blogr-landing-page/images/icon-close.svg" alt="close" width="22" height="22">'
+      : '<img src="https://johnmwendwa.github.io/blogr-landing-page/images/icon-hamburger.svg" alt="menu" width="22" height="22">';
+  });
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
